@@ -221,3 +221,11 @@ app.put("/category/update/:id", async (req, res) => {
     res.status(500).json({ message: "Internal server error." });
   }
 });
+
+// Filter category endpoint
+app.get("/category/filter/:id", async (req, res) => {
+  const id = req.params.id;
+  const idNumb = Number(id);
+  const result = await pool.query("SELECT FROM category WHERE id=$1", [idNumb]);
+  res.send("Treasures filtered by the category!");
+});
