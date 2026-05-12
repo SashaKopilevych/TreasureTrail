@@ -140,6 +140,16 @@ app.delete("/treasure/delete/:id", async (req, res) => {
   if (result.rowCount === 1) res.send(`treasure #${idNumb} deleted!`);
 });
 
+// Filter (by category_id) endpoint
+app.get("/treasure/filter/:id", async (req, res) => {
+  const id = req.params.id;
+  const category_idNumb = Number(id);
+  const result = await pool.query("SELECT FROM treasure WHERE category_id=$1", [
+    category_idNumb,
+  ]);
+  res.send("Treasures filtered by the category!");
+});
+
 app.listen(3000, () => {
   console.log("Server running on port 3000");
 });
@@ -220,12 +230,4 @@ app.put("/category/update/:id", async (req, res) => {
     console.log(err);
     res.status(500).json({ message: "Internal server error." });
   }
-});
-
-// Filter category endpoint
-app.get("/category/filter/:id", async (req, res) => {
-  const id = req.params.id;
-  const idNumb = Number(id);
-  const result = await pool.query("SELECT FROM category WHERE id=$1", [idNumb]);
-  res.send("Treasures filtered by the category!");
 });
