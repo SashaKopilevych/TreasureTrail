@@ -21,6 +21,17 @@ app.get("/treasures/list", async (req, res) => {
   res.json(result.rows);
 });
 
+// Filter (by category_id) endpoint
+app.get("/treasure/filter/:id", async (req, res) => {
+  const id = req.params.id;
+  const category_idNumb = Number(id);
+  const result = await pool.query(
+    "SELECT id, description, image_name, latitude, longitude, hint, category_id, is_found FROM treasure WHERE category_id=$1",
+    [category_idNumb],
+  );
+  res.json(result.rows);
+});
+
 // Create endpoint
 app.post("/treasure/create", upload.single("image_name"), async (req, res) => {
   try {
@@ -140,14 +151,28 @@ app.delete("/treasure/delete/:id", async (req, res) => {
   if (result.rowCount === 1) res.send(`treasure #${idNumb} deleted!`);
 });
 
-// Filter (by category_id) endpoint
-app.get("/treasure/filter/:id", async (req, res) => {
+//Read chosen treasure endpoint
+app.get("/treasure/details/:id", async (req, res) => {
   const id = req.params.id;
-  const category_idNumb = Number(id);
-  const result = await pool.query("SELECT FROM treasure WHERE category_id=$1", [
-    category_idNumb,
-  ]);
-  res.send("Treasures filtered by the category!");
+  const idNumb = Number(id);
+
+  if (Number.isNaN(idNumb)) {
+    return res.status(404).json({
+      code: "InvalidTreasureIdType",
+      message: "Treasure ID must be a number",
+    });
+  }
+  const result = await pool.query(
+    `SELECT treasure.id, treasure.description, treasure.image_name, treasure.latitude, treasure.longitude, treasure.hint, treasure.category_id, category.name AS category_name, treasure.is_found FROM treasure JOIN category ON treasure.category_id = category.id WHERE treasure.id = $1`,
+    [idNumb],
+  );
+  if (result.rows.length === 0) {
+    return res
+      .status(404)
+      .json({ code: "TreasureNotFound", message: "Treasure not found" });
+  }
+
+  return res.json(result.rows[0]);
 });
 
 app.listen(3000, () => {
