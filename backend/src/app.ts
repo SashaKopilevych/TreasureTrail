@@ -279,7 +279,7 @@ app.delete("/category/delete/:id", async (req, res) => {
       });
     }
 
-    const updateTreasuresUnknown = await pool.query(
+    await pool.query(
       `UPDATE treasure SET category_id = $1 WHERE category_id = $2`,
       [idUnknown, idNumb],
     );
