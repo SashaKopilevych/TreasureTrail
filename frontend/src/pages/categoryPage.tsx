@@ -82,7 +82,7 @@ function CategoryPage() {
       if (!res.ok) {
         throw new Error(`HTTP error ${res.status}`);
       }
-      showSuccess("Successfully created category!");
+      showSuccess("Category created successfully!");
       setName(""); //clears input
       await handleShowCategories();
     } catch (error) {
@@ -112,6 +112,8 @@ function CategoryPage() {
         throw new Error(`HTTP error: ${res.status}`);
       }
 
+      showSuccess("Category updated successfully!");
+
       setSelectedCategory(null);
       setName("");
       await handleShowCategories();
@@ -137,11 +139,11 @@ function CategoryPage() {
         },
       );
 
-      console.log("Deleted category successfully");
-
       if (!res.ok) {
         throw new Error(`HTTP error${res.status}`);
       }
+
+      showSuccess("Category deleted successfully!");
 
       await handleShowCategories();
       await getTreasures();
@@ -208,26 +210,30 @@ function CategoryPage() {
       )}
       {categoryState === "create" && (
         <>
-          <form action=""></form>
-          <label htmlFor="category-name" className="bg-amber-900">
-            Category name:{" "}
-          </label>
-          <input
-            id="category-name"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <br />
-          <button onClick={handleCreateCategory}>Submit</button>
-          <br />
-          <button
-            onClick={() => {
-              setCategoryState("default");
-            }}
-          >
-            Back
-          </button>
+          <form action="">
+            <label htmlFor="category-name" className="bg-amber-900">
+              Category name:{" "}
+            </label>
+            <input
+              id="category-name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <br />
+            <button type="button" onClick={handleCreateCategory}>
+              Submit
+            </button>
+            <br />
+            <button
+              type="button"
+              onClick={() => {
+                setCategoryState("default");
+              }}
+            >
+              Back
+            </button>
+          </form>
         </>
       )}
       {categoryState === "update" && (
@@ -276,6 +282,7 @@ function CategoryPage() {
             </p>
             <br />
             <button
+              type="button"
               onClick={handleUpdateCategory}
               disabled={!selectedCategory || isUnknownCategory}
             >
@@ -283,6 +290,7 @@ function CategoryPage() {
             </button>
             <br />
             <button
+              type="button"
               onClick={() => {
                 setCategoryState("default");
               }}
@@ -335,6 +343,7 @@ function CategoryPage() {
             </button>
             <br />
             <button
+              type="button"
               onClick={() => {
                 setCategoryState("default");
               }}
