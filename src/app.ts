@@ -144,7 +144,7 @@ app.delete("/treasure/delete/:id", async (req, res) => {
   }
 
   const result = await pool.query(
-    "DELETE FROM treasure WHERE id=$1 RETURNING *",
+    "DELETE FROM treasure WHERE id=$1 AND is_found = true RETURNING *",
     [idNumb],
   );
   if (result.rowCount === 0) res.status(404).send("Deleting error.");
@@ -173,6 +173,36 @@ app.get("/treasure/details/:id", async (req, res) => {
   }
 
   return res.json(result.rows[0]);
+});
+
+// (Update) Mark treasure as Found
+app.put("/treasure/mark-as-found/:id", async (req, res) => {
+  const id = Number(req.params.id);
+
+  if (!Number.isInteger(id)) {
+    return res
+      .status(400)
+      .json({ code: "InvalidId", message: "Treasure ID must be an integer" });
+  }
+
+  try {
+    const result = await pool.query(
+      `UPDATE treasure SET is_found = true WHERE id=$1 RETURNING*`,
+      [id],
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({
+        code: "TreasureNotFound",
+        message: "Treasure was not found.",
+      });
+    }
+
+    return res.json(result.rows[0]);
+  } catch (error) {
+    console.log(error);
+    return res.status(500);
+  }
 });
 
 app.listen(3000, () => {
@@ -220,11 +250,62 @@ app.delete("/category/delete/:id", async (req, res) => {
       message: "Invalid ID.",
     });
   }
-  const result = await pool.query(
-    "DELETE FROM category WHERE id=$1 RETURNING *",
-    [idNumb],
-  );
-  if (result.rowCount === 1) res.send(`category deleted!`);
+
+  if (!Number.isInteger(idNumb)) {
+    return res.status(400).json({
+      code: "InvalidCategoryId",
+      message: "Category Id must be an integer.",
+    });
+  }
+
+  try {
+    const categoryUnknown = await pool.query(
+      `SELECT id FROM category WHERE name = $1`,
+      ["unknown"],
+    );
+    if (categoryUnknown.rowCount === 0) {
+      return res.status(500).json({
+        code: "UnknownCategoryNotFound",
+        message: "Category 'unknown' does not exist.",
+      });
+    }
+
+    const idUnknown = categoryUnknown.rows[0].id;
+
+    if (idNumb === idUnknown) {
+      return res.status(400).json({
+        code: "CannotDeleteUnknownCategory",
+        message: "'Unknown' category cannot be deleted.",
+      });
+    }
+
+    const updateTreasuresUnknown = await pool.query(
+      `UPDATE treasure SET category_id = $1 WHERE category_id = $2`,
+      [idUnknown, idNumb],
+    );
+
+    const deletedCategory = await pool.query(
+      `DELETE FROM category WHERE id=$1 RETURNING *`,
+      [idNumb],
+    );
+
+    if (deletedCategory.rowCount === 0) {
+      return res.status(404).json({
+        code: "CategoryNotFound",
+        message: "Category was not found",
+      });
+    }
+
+    return res.json({
+      message: "Category deleted successfully!",
+      deletedCategory: deletedCategory.rows[0],
+    });
+  } catch (error) {
+    return res.status(500).json({
+      code: "InternalServerError",
+      message: "Failed to delete category",
+    });
+  }
 });
 
 // Update endpoint
@@ -240,7 +321,7 @@ app.put("/category/update/:id", async (req, res) => {
       });
     }
     const result = await pool.query(
-      "UPDATE category SET name = COALESCE($2, name) WHERE id = $1 RETURNING *",
+      `UPDATE category SET name = COALESCE($2, name) WHERE id = $1 RETURNING *`,
       [idNum, name],
     );
     if (result.rowCount === 0) {
