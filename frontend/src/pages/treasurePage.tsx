@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import type { Category, Treasure } from "../types";
 import { useNavigate, useOutletContext } from "react-router-dom";
+import { IoMdCreate } from "react-icons/io";
+import { GrUpdate } from "react-icons/gr";
+import { MdDeleteForever } from "react-icons/md";
 import { Toast } from "primereact/toast";
 
 function TreasurePage() {
@@ -195,136 +198,176 @@ function TreasurePage() {
       <Toast ref={toast} />
       {state === "default" && (
         <>
-          <div>
-            <button onClick={() => setState("create")}>Create +</button>
+          <div className="flex w-full gap-3 bg-gray-600 pt-15">
+            <div className="min-w-0 flex-1 bg-pink-400 px-4 py-1">
+              <div className="inline-flex items-center rounded bg-gray-400 text-lg">
+                <label htmlFor="filter-select">Filter: </label>
+                <select
+                  className="min-w-0"
+                  id="filter-select"
+                  value={selectedFilter}
+                  onChange={(event) =>
+                    setSelectedFilter(
+                      event.target.value as "all" | "found" | "not-found",
+                    )
+                  }
+                >
+                  <option value="all">All</option>
+                  <option value="found">Found</option>
+                  <option value="not-found">Not found</option>
+                </select>
+              </div>
+            </div>
+            <div className="min-w-0 flex-1 bg-blue-500 px-4 py-1">
+              <div className="inline-flex items-center rounded bg-gray-400 text-lg">
+                <label htmlFor="category-select">Category: </label>
+                <select
+                  className="min-w-0"
+                  value={selectedCategoryId}
+                  onChange={(event) =>
+                    setSelectedCategoryId(event.target.value)
+                  }
+                  id="category-select"
+                >
+                  <option value="all">all</option>
+                  {categories.map((category) => (
+                    <option key={category.id} value={String(category.id)}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
           </div>
-          <br />
-          <div>
-            <button
-              onClick={() => {
-                (setSelectedTreasure(null), setState("update"));
-              }}
-            >
-              Update
-            </button>
+          {/* //////////////////////////// */}
+          <div className="flex w-fit flex-col gap-15 bg-gray-500 pt-30 pl-2">
+            <div className="inline-flex bg-yellow-300 text-xl font-semibold">
+              <div className="flex items-center gap-3">
+                <button onClick={() => setState("create")}>Create</button>
+                <IoMdCreate className="h-5 w-5" />
+              </div>
+            </div>
+            <div className="inline-flex bg-green-400 text-xl font-semibold">
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => {
+                    (setSelectedTreasure(null), setState("update"));
+                  }}
+                >
+                  Update
+                </button>
+                <GrUpdate className="h-5 w-5" />
+              </div>
+            </div>
+            <div className="inline-flex bg-purple-600 text-xl font-semibold">
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => {
+                    {
+                      setSelectedTreasure(null);
+                      setState("delete");
+                    }
+                  }}
+                >
+                  Delete
+                </button>
+                <MdDeleteForever className="h-6 w-6" />
+              </div>
+            </div>
           </div>
-          <br />
-          <div>
-            <button
-              onClick={() => {
-                (setSelectedTreasure(null), setState("delete"));
-              }}
-            >
-              Delete
-            </button>
-          </div>
-          <br />
-          <label htmlFor="category-select">Category</label>
-          <select
-            value={selectedCategoryId}
-            onChange={(event) => setSelectedCategoryId(event.target.value)}
-            id="category-select"
-          >
-            <option value="all">all</option>
-            {categories.map((category) => (
-              <option key={category.id} value={String(category.id)}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-          <br />
-          <label htmlFor="filter-select">Filter</label>
-          <select
-            id="filter-select"
-            value={selectedFilter}
-            onChange={(event) =>
-              setSelectedFilter(
-                event.target.value as "all" | "found" | "not-found",
-              )
-            }
-          >
-            <option value="all">All</option>
-            <option value="found">Found</option>
-            <option value="not-found">Not found</option>
-          </select>
         </>
       )}
       {state === "create" && (
         <>
-          <form action="">
-            <div>
-              <label htmlFor="image">Image</label>
-              <input
-                id="image"
-                type="file"
-                accept="image/jpeg, image/png"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    setImage(file);
-                  }
-                }}
-              />
+          <div className="flex flex-col gap-12">
+            <form className="flex flex-col gap-4 px-2 pt-5" action="">
+              <div className="w-fit bg-amber-300 text-lg font-medium">
+                <label htmlFor="image">Image: </label>
+                <input
+                  className="rounded bg-gray-300"
+                  id="image"
+                  type="file"
+                  accept="image/jpeg, image/png"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      setImage(file);
+                    }
+                  }}
+                />
+              </div>
+              <div className="w-fit bg-blue-500 text-lg font-medium">
+                <label htmlFor="description">Description: </label>
+                <input
+                  className="rounded bg-gray-300"
+                  id="description"
+                  type="text"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </div>
+              <div className="w-fit bg-green-400 text-lg font-medium">
+                <label htmlFor="latitude">Latitude: </label>
+                <input
+                  className="rounded bg-gray-300"
+                  id="latitude"
+                  type="text"
+                  value={latitude}
+                  onChange={(e) => setLatitude(e.target.value)}
+                />
+              </div>
+              <div className="w-fit bg-pink-500 text-lg font-medium">
+                <label htmlFor="longitude">Longitude: </label>
+                <input
+                  className="rounded bg-gray-300"
+                  id="longitude"
+                  type="text"
+                  value={longitude}
+                  onChange={(e) => setLongitude(e.target.value)}
+                />
+              </div>
+              <div className="w-fit bg-purple-500 text-lg font-medium">
+                <label htmlFor="hint">Hint*: </label>
+                <input
+                  className="rounded bg-gray-300"
+                  id="hint"
+                  type="text"
+                  value={hint}
+                  onChange={(e) => setHint(e.target.value)}
+                />
+              </div>
+              <div className="w-fit bg-amber-800 text-lg font-medium">
+                <label htmlFor="category">Category: </label>
+                <select
+                  className="rounded bg-gray-300"
+                  id="category"
+                  name="category_id"
+                  value={categoryId}
+                  onChange={(e) => setCategoryId(e.target.value)}
+                >
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </form>
+            {/* ////////////////////////////////// */}
+            <div className="flex gap-6 bg-lime-600 px-2">
+              <div className="w-fit flex-1 bg-gray-700 text-base font-light">
+                <button onClick={() => setState("default")}>Back</button>
+              </div>
+              <div className="fw-fit w-fit bg-red-600 pr-15 text-right font-semibold">
+                <button
+                  className="bg-amber-400"
+                  type="button"
+                  onClick={handleCreateTreasure}
+                >
+                  Submit
+                </button>
+              </div>
             </div>
-            <div>
-              <label htmlFor="description">Description: </label>
-              <input
-                id="description"
-                type="text"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="latitude">Latitude: </label>
-              <input
-                id="latitude"
-                type="text"
-                value={latitude}
-                onChange={(e) => setLatitude(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="longitude">Longitude: </label>
-              <input
-                id="longitude"
-                type="text"
-                value={longitude}
-                onChange={(e) => setLongitude(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="hint">Hint*: </label>
-              <input
-                id="hint"
-                type="text"
-                value={hint}
-                onChange={(e) => setHint(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="category">Category: </label>
-              <select
-                id="category"
-                name="category_id"
-                value={categoryId}
-                onChange={(e) => setCategoryId(e.target.value)}
-              >
-                {categories.map((category) => (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </form>
-          <div>
-            <button type="button" onClick={handleCreateTreasure}>
-              Submit
-            </button>
-          </div>
-          <div>
-            <button onClick={() => setState("default")}>Back</button>
           </div>
         </>
       )}
@@ -427,15 +470,21 @@ function TreasurePage() {
 
       {state === "update" && !selectedTreasure && (
         <>
-          <div>Please choose a treasure.</div>
-          <button
-            onClick={() => {
-              setState("default");
-              setSelectedTreasure(null);
-            }}
-          >
-            Back
-          </button>
+          <div className="flex flex-col gap-8 bg-gray-600 pt-7">
+            <div className="flex items-center justify-center rounded border-4 border-red-700 bg-gray-100 py-5 text-xl font-semibold">
+              Please select a treasure.
+            </div>
+            <div className="bg-blue-400 pl-10 text-lg">
+              <button
+                onClick={() => {
+                  setState("default");
+                  setSelectedTreasure(null);
+                }}
+              >
+                Back
+              </button>
+            </div>
+          </div>
         </>
       )}
 
