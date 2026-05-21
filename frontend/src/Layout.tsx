@@ -78,7 +78,7 @@ function Layout() {
     <>
       <Toast ref={toast} />
       <div className="grid grid-cols-[25%_75%]">
-        <div className="bg-amber-600">
+        <div className="bg-[#FF9B42]">
           <div className="flex flex-row">
             <div className="basis-64">
               <IconContext.Provider value={{ color: "black", size: "4em" }}>

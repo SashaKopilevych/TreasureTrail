@@ -200,7 +200,7 @@ function TreasurePage() {
         <>
           <div className="flex w-full gap-1 pt-12">
             <div className="min-w-0 flex-1 px-2 py-1">
-              <div className="text-lh inline-flex items-center rounded bg-gray-200 px-2 py-1.5">
+              <div className="inline-flex items-center rounded bg-gray-200 px-2 py-1.5 text-lg">
                 <label
                   className="text-lg font-semibold"
                   htmlFor="filter-select"
@@ -251,39 +251,32 @@ function TreasurePage() {
           </div>
           {/* //////////////////////////// */}
           <div className="flex w-fit flex-col gap-15 pt-20 pl-2">
-            <div className="inline-flex rounded-2xl border-3 border-gray-400 bg-gray-300 px-3 py-2 text-xl font-semibold">
-              <div className="flex items-center gap-3">
-                <button onClick={() => setState("create")}>Create</button>
-                <IoMdCreate className="h-5 w-5" />
-              </div>
-            </div>
-            <div className="inline-flex rounded-2xl border-3 border-gray-400 bg-gray-300 px-3 py-2 text-xl font-semibold">
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => {
-                    (setSelectedTreasure(null), setState("update"));
-                  }}
-                >
-                  Update
-                </button>
-                <GrUpdate className="h-5 w-5" />
-              </div>
-            </div>
-            <div className="inline-flex rounded-2xl border-3 border-gray-400 bg-gray-300 px-3 py-2 text-xl font-semibold">
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => {
-                    {
-                      setSelectedTreasure(null);
-                      setState("delete");
-                    }
-                  }}
-                >
-                  Delete
-                </button>
-                <MdDeleteForever className="h-6 w-6" />
-              </div>
-            </div>
+            <button onClick={() => setState("create")} className="btn-state">
+              <span>Create</span>
+              <IoMdCreate className="h-5 w-5" />
+            </button>
+            <button
+              onClick={() => {
+                (setSelectedTreasure(null), setState("update"));
+              }}
+              className="flex cursor-pointer items-center gap-3 rounded-2xl border-3 border-gray-400 bg-gray-300 px-3 py-2 text-xl font-semibold hover:bg-gray-400"
+            >
+              <span>Update</span>
+              <GrUpdate className="h-5 w-5" />
+            </button>
+
+            <button
+              className="flex cursor-pointer items-center gap-3 rounded-2xl border-3 border-gray-400 bg-gray-300 px-3 py-2 text-xl font-semibold hover:bg-gray-400 active:border-gray-600 active:bg-gray-600"
+              onClick={() => {
+                {
+                  setSelectedTreasure(null);
+                  setState("delete");
+                }
+              }}
+            >
+              <span> Delete </span>
+              <MdDeleteForever className="h-6 w-6" />
+            </button>
           </div>
         </>
       )}
@@ -367,7 +360,7 @@ function TreasurePage() {
             <div className="flex">
               <div className="flex flex-1 items-center justify-start px-6">
                 <button
-                  className="w-fit items-start rounded-2xl border-3 border-gray-500 bg-gray-300 px-2 py-1 text-lg font-medium text-black"
+                  className="btn-back"
                   onClick={() => setState("default")}
                 >
                   Back
@@ -375,7 +368,7 @@ function TreasurePage() {
               </div>
               <div className="flex flex-1 items-center justify-start px-6">
                 <button
-                  className="w-fit rounded-2xl border-3 border-gray-500 bg-white px-3 py-1 text-lg font-semibold text-blue-600"
+                  className="btn-submit"
                   type="button"
                   onClick={handleCreateTreasure}
                 >
@@ -487,7 +480,7 @@ function TreasurePage() {
             <div className="flex gap-7">
               <div className="flex flex-1 items-center justify-start px-5">
                 <button
-                  className="flex w-fit items-start rounded-2xl border-3 border-gray-500 bg-gray-300 px-4 py-1 text-lg font-medium text-black"
+                  className="btn-back"
                   type="button"
                   onClick={() => {
                     setState("default");
@@ -499,7 +492,7 @@ function TreasurePage() {
               </div>
               <div className="flex flex-1 items-center justify-start py-1">
                 <button
-                  className="rounded-2xl border-3 border-gray-500 bg-white px-1 py-1 text-lg font-semibold text-blue-600"
+                  className="btn-submit"
                   type="button"
                   onClick={handleUpdateTreasure}
                 >
@@ -519,7 +512,7 @@ function TreasurePage() {
             </p>
             <div className="flex items-center justify-start px-3">
               <button
-                className="flex w-fit items-start rounded-2xl border-3 border-gray-500 bg-gray-300 px-4 py-1 text-lg font-medium text-black"
+                className="btn-back"
                 onClick={() => {
                   setState("default");
                   setSelectedTreasure(null);
@@ -535,12 +528,12 @@ function TreasurePage() {
       {state === "update" && !selectedTreasure && (
         <>
           <div className="flex flex-col gap-7 pt-7">
-            <div className="flex items-center justify-center rounded border-4 border-red-700 bg-gray-200 py-5 text-xl font-semibold">
+            <div className="notSelected">
               Please select a treasure to update.
             </div>
             <div className="flex items-center justify-start px-3">
               <button
-                className="flex w-fit items-start rounded-2xl border-3 border-gray-500 bg-gray-300 px-4 py-1 text-lg font-medium text-black"
+                className="btn-back"
                 type="button"
                 onClick={() => {
                   setState("default");
@@ -561,15 +554,12 @@ function TreasurePage() {
               Are you sure you want to delete this treasure?
             </p>
             <div className="flex gap-5">
-              <button
-                className="flex flex-1 font-bold text-red-800"
-                onClick={handleDeleteTreasure}
-              >
+              <button className="btn-delete" onClick={handleDeleteTreasure}>
                 Delete
               </button>
               <div className="flex-1 items-center justify-start px-3">
                 <button
-                  className="w-fit items-start rounded-2xl border-3 border-gray-500 bg-gray-300 px-4 py-1 text-lg font-medium text-black"
+                  className="btn-back"
                   type="button"
                   onClick={() => {
                     setState("default");
@@ -590,10 +580,7 @@ function TreasurePage() {
             <p className="flex items-center justify-center border-4 border-red-500 bg-gray-200 px-3 py-3 text-xl font-semibold text-red-700">
               You can delete only found treasures.
             </p>
-            <button
-              className="flex w-fit items-start rounded-2xl border-3 border-gray-500 bg-gray-300 px-4 py-1 text-lg font-medium text-black"
-              onClick={() => setState("default")}
-            >
+            <button className="btn-back" onClick={() => setState("default")}>
               Back
             </button>
           </div>
@@ -603,20 +590,18 @@ function TreasurePage() {
       {state === "delete" && !selectedTreasure && (
         <>
           <div className="flex flex-col gap-7 pt-7">
-            <div className="flex items-center justify-center rounded border-4 border-red-700 bg-gray-200 py-5 text-xl font-semibold">
+            <div className="notSelected">
               Please select a treasure to delete.
             </div>
-            <div className="flex items-center justify-start px-3">
-              <button
-                className="flex w-fit items-start rounded-2xl border-3 border-gray-500 bg-gray-300 px-4 py-1 text-lg font-medium text-black"
-                onClick={() => {
-                  setState("default");
-                  setSelectedTreasure(null);
-                }}
-              >
-                Back
-              </button>
-            </div>
+            <button
+              className="btn-back w-fit"
+              onClick={() => {
+                setState("default");
+                setSelectedTreasure(null);
+              }}
+            >
+              <span>Back</span>
+            </button>
           </div>
         </>
       )}

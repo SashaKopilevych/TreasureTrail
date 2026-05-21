@@ -1,1 +1,122 @@
 @import "tailwindcss";
+
+.btn-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  border-width: 3px;
+  border-color: #361c6d;
+  background-color: #d0c4eb;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 500;
+  color: #260077;
+  cursor: pointer;
+  width: fit-content;
+  gap: 0.75rem;
+}
+
+.btn-state:hover {
+}
+
+.btn-state:active {
+}
+
+.btn-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  border-width: 3px;
+  border-color: #737373;
+  background-color: #d4d4d4;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 500;
+  color: black;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.btn-back:hover {
+  background-color: #a3a3a3;
+}
+
+.btn-back:active {
+  background-color: #525252;
+  border-color: #525252;
+}
+
+.btn-submit {
+  border-radius: 1rem;
+  border-width: 3px;
+  border-color: #737373;
+  background-color: white;
+  padding-right: 12px;
+  padding-left: 12px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  color: #2563eb;
+}
+
+.btn-submit:hover {
+  border-color: #737373;
+  background-color: #cecccb;
+}
+
+.btn-submit:active {
+  border-color: #737373;
+  background-color: #737373;
+}
+
+.btn-delete {
+  border-radius: 1rem;
+  border-width: 4px;
+  border-color: #991b1b;
+  background-color: #f7f5f5;
+  padding-right: 12px;
+  padding-left: 12px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+  color: #991b1b;
+}
+
+.btn-delete:hover {
+  border-color: #9c3131;
+  background-color: #f3bebe;
+}
+
+.btn-delete:active {
+  border-color: #9c3131;
+  background-color: #9d3b3b;
+}
+
+.notSelected {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.25rem;
+  border-width: 4px;
+  border-color: #b91c1c;
+  background-color: #f3f4f6;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 500;
+}
