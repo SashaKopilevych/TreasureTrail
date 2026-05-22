@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useOutletContext, useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import type { Treasure } from "./types";
 import { Toast } from "primereact/toast";
@@ -15,6 +15,10 @@ function TreasureDetails() {
   const [isCheckingLocation, setIsCheckingLocation] = useState<boolean>(false);
 
   const allowedDistance = 30;
+
+  const { getTreasures } = useOutletContext<{
+    getTreasures: () => Promise<void>;
+  }>();
 
   useEffect(() => {
     fetch(`http://localhost:3000/treasure/details/${id}`)
@@ -208,6 +212,7 @@ function TreasureDetails() {
 
     if (!isCloseEnough) {
       showWarning("You need to be close to the treasure to mark as found!");
+      return;
     }
     try {
       const res = await fetch(
@@ -222,6 +227,7 @@ function TreasureDetails() {
 
       const updatedTreasure = await res.json();
       setTreasure(updatedTreasure);
+      await getTreasures();
       showSuccess("Treasure marked as found!");
     } catch (error) {
       console.log("Failed to mark treasure as found: ", error);
@@ -237,7 +243,7 @@ function TreasureDetails() {
     <>
       <Toast ref={toast} />
 
-      <div className="mt-5 bg-[#f1cda3] py-2 pl-2">
+      <div className="bg-color mt-5 py-2 pl-2">
         <div className="px-4 py-2">
           {treasure.image_name && (
             <img
@@ -287,7 +293,7 @@ function TreasureDetails() {
             </button>
           )}
           {!treasure.is_found && distance !== null && (
-            <p>Distance: {Math.round(distance)}m</p>
+            <p className="text">Distance: {Math.round(distance)}m</p>
           )}
 
           <div className="flex">

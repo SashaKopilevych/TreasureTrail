@@ -12,14 +12,5 @@ function MapClickHandler({ onClear }: { onClear: () => void }) {
   });
   return null;
 }
-// function MapClickHandler() {
-//   useMapEvents({
-//     click(event) {
-//       const { lat, lng } = event.latlng;
-//     },
-//   });
-
-//   return null;
-// }
 
 export default MapClickHandler;

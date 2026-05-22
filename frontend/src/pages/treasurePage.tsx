@@ -184,7 +184,7 @@ function TreasurePage() {
       }
 
       showSuccess("Treasure deleted successfully!");
-
+      await getTreasures();
       navigate("/treasure");
       setSelectedTreasure(null);
     } catch (error) {
@@ -198,7 +198,7 @@ function TreasurePage() {
       <Toast ref={toast} />
       {state === "default" && (
         <>
-          <div className="bg-[#f1cda3] pb-4">
+          <div className="bg-color pb-4">
             <div className="mt-9 flex w-full gap-1">
               <div className="min-w-0 flex-1 px-2 py-1">
                 <div className="filter">
@@ -250,7 +250,7 @@ function TreasurePage() {
                 </div>
               </div>
             </div>
-            {/* //////////////////////////// */}
+
             <div className="flex w-fit flex-col gap-10 pt-20 pl-2">
               <button onClick={() => setState("create")} className="btn-state">
                 <span>Create</span>
@@ -284,7 +284,7 @@ function TreasurePage() {
       )}
       {state === "create" && (
         <>
-          <div className="mt-2 bg-[#f1cda3]">
+          <div className="bg-color mt-2">
             <div className="flex flex-col gap-12">
               <form className="flex flex-col gap-4 px-2 pt-4" action="">
                 <div>
@@ -371,7 +371,7 @@ function TreasurePage() {
                   </select>
                 </div>
               </form>
-              {/* ////////////////////////////////// */}
+
               <div className="flex">
                 <div className="flex flex-1 items-center justify-start px-6">
                   <button
@@ -398,7 +398,7 @@ function TreasurePage() {
 
       {state === "update" && selectedTreasure && !selectedTreasure.is_found && (
         <>
-          <div className="my-2 bg-[#f1cda3]">
+          <div className="bg-color my-2">
             <div className="flex flex-col gap-7 py-7">
               <form action="">
                 <label htmlFor="image"></label>
@@ -524,7 +524,7 @@ function TreasurePage() {
 
       {state === "update" && selectedTreasure && selectedTreasure.is_found && (
         <>
-          <div className="flex flex-col gap-8 pt-7">
+          <div className="bg-color flex flex-col gap-8 pt-7">
             <p className="instruction px-4 py-1">
               This treasure is already found and cannot be updated.
             </p>
@@ -545,7 +545,7 @@ function TreasurePage() {
 
       {state === "update" && !selectedTreasure && (
         <>
-          <div className="mt-5 flex flex-col gap-7 bg-[#f1cda3] py-3">
+          <div className="bg-color mt-5 flex flex-col gap-7 py-3">
             <div className="instruction">
               Please select a treasure to update.
             </div>
@@ -567,7 +567,7 @@ function TreasurePage() {
 
       {state === "delete" && selectedTreasure && selectedTreasure.is_found && (
         <>
-          <div className="mt-5 flex flex-col gap-3 bg-[#f1cda3] px-2 py-3">
+          <div className="bg-color mt-5 flex flex-col gap-3 px-2 py-3">
             <p className="instruction pl-10">
               Are you sure you want to delete this treasure?
             </p>
@@ -593,7 +593,7 @@ function TreasurePage() {
 
       {state === "delete" && selectedTreasure && !selectedTreasure.is_found && (
         <>
-          <div className="mt-5 flex flex-col gap-7 bg-[#f1cda3] py-3">
+          <div className="bg-color mt-5 flex flex-col gap-7 py-3">
             <p className="instruction">You can delete only found treasures.</p>
             <button
               className="btn-back ml-3"
@@ -607,7 +607,7 @@ function TreasurePage() {
 
       {state === "delete" && !selectedTreasure && (
         <>
-          <div className="mt-5 flex flex-col gap-7 bg-[#f1cda3] py-3">
+          <div className="bg-color mt-5 flex flex-col gap-7 py-3">
             <div className="instruction">
               Please select a treasure to delete.
             </div>

@@ -66,7 +66,6 @@ function CategoryPage() {
 
       const data = await res.json();
       setCategories(data);
-      //   showSuccess("categories loaded!");
     } catch (error) {
       console.log("Failed to load categories.");
       showError("Failed to load categories.");
@@ -165,7 +164,7 @@ function CategoryPage() {
       <Toast ref={toast} />
       {categoryState === "default" && (
         <>
-          <div className="mt-5 flex flex-col gap-10 bg-[#f1cda3] py-5 pl-2">
+          <div className="bg-color mt-5 flex flex-col gap-10 py-5 pl-2">
             <button
               className="btn-state"
               onClick={() => setCategoryState("show")}
@@ -206,7 +205,7 @@ function CategoryPage() {
       )}
       {categoryState === "show" && (
         <>
-          <div className="my-3 flex flex-col gap-5 bg-[#f1cda3] py-2">
+          <div className="bg-color my-3 flex flex-col gap-5 py-2">
             <p
               className="mx-3 w-fit rounded bg-[#5a33ad] px-3 text-2xl text-white"
               onClick={handleShowCategories}
@@ -236,7 +235,7 @@ function CategoryPage() {
       )}
       {categoryState === "create" && (
         <>
-          <form action="" className="mt-5 bg-[#f1cda3] py-3">
+          <form action="" className="bg-color mt-5 py-3">
             <label htmlFor="category-name" className="text ml-4">
               Category name:{" "}
             </label>
@@ -272,7 +271,7 @@ function CategoryPage() {
       )}
       {categoryState === "update" && (
         <>
-          <form action="" className="mt-5 bg-[#f1cda3] py-2">
+          <form action="" className="bg-color mt-5 py-2">
             <div className="flex flex-col">
               <div>
                 <label htmlFor="category" className="text mt-2 ml-2">
@@ -345,7 +344,7 @@ function CategoryPage() {
       )}
       {categoryState === "delete" && (
         <>
-          <form action="" className="mt-5 bg-[#f1cda3] py-2">
+          <form action="" className="bg-color mt-5 py-2">
             <label htmlFor="category" className="text mt-5 ml-2">
               Choose a category:{" "}
             </label>
