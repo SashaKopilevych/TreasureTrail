@@ -2,6 +2,9 @@ import { useState, useRef, useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import type { Category } from "../types";
 import { Toast } from "primereact/toast";
+import { IoMdCreate } from "react-icons/io";
+import { GrUpdate } from "react-icons/gr";
+import { MdDeleteForever, MdFormatListBulleted } from "react-icons/md";
 
 function CategoryPage() {
   const toast = useRef<Toast>(null);
@@ -162,149 +165,192 @@ function CategoryPage() {
       <Toast ref={toast} />
       {categoryState === "default" && (
         <>
-          <div onClick={() => setCategoryState("show")}> Show all</div>
-          <br />
-          <div>
+          <div className="mt-5 flex flex-col gap-10 bg-[#f1cda3] py-5 pl-2">
             <button
+              className="btn-state"
+              onClick={() => setCategoryState("show")}
+            >
+              <span>Show all</span>
+              <MdFormatListBulleted />
+            </button>
+
+            <button
+              className="btn-state"
               onClick={() => {
                 setCategoryState("create");
               }}
             >
-              Create +
+              Create
+              <IoMdCreate className="h-5 w-5" />
             </button>
-          </div>
-          <br />
-          <div>
+
             <button
+              className="btn-state"
               onClick={() => {
                 setCategoryState("update");
               }}
             >
               Update
+              <GrUpdate className="h-5 w-5" />
+            </button>
+
+            <button
+              className="btn-state"
+              onClick={() => setCategoryState("delete")}
+            >
+              <span>Delete</span>
+              <MdDeleteForever className="h-6 w-6" />
             </button>
           </div>
-          <br />
-          <div>
-            <button onClick={() => setCategoryState("delete")}>Delete -</button>
-          </div>
-          <br />
         </>
       )}
       {categoryState === "show" && (
         <>
-          <button className="bg-amber-800" onClick={handleShowCategories}>
-            Show all categories
-          </button>
-          {categories.map((category) => (
-            <div key={category.id}> {category.name} </div>
-          ))}
-          <br />
-          <button
-            onClick={() => {
-              setCategoryState("default");
-            }}
-          >
-            Back
-          </button>
-        </>
-      )}
-      {categoryState === "create" && (
-        <>
-          <form action="">
-            <label htmlFor="category-name" className="bg-amber-900">
-              Category name:{" "}
-            </label>
-            <input
-              id="category-name"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <br />
-            <button type="button" onClick={handleCreateCategory}>
-              Submit
-            </button>
-            <br />
+          <div className="my-3 flex flex-col gap-5 bg-[#f1cda3] py-2">
+            <p
+              className="mx-3 w-fit rounded bg-[#5a33ad] px-3 text-2xl text-white"
+              onClick={handleShowCategories}
+            >
+              All categories:
+            </p>
+            {categories.map((category) => (
+              <div
+                className="mx-3 w-fit rounded bg-[#b69dee] px-3 text-lg"
+                key={category.id}
+              >
+                {" "}
+                {category.name}{" "}
+              </div>
+            ))}
+
             <button
-              type="button"
+              className="btn-back mt-5 ml-5"
               onClick={() => {
                 setCategoryState("default");
               }}
             >
               Back
             </button>
+          </div>
+        </>
+      )}
+      {categoryState === "create" && (
+        <>
+          <form action="" className="mt-5 bg-[#f1cda3] py-3">
+            <label htmlFor="category-name" className="text ml-4">
+              Category name:{" "}
+            </label>
+            <input
+              className="input"
+              id="category-name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+
+            <div className="mt-10 flex gap-35">
+              <button
+                className="btn-back ml-5"
+                type="button"
+                onClick={() => {
+                  setCategoryState("default");
+                }}
+              >
+                Back
+              </button>
+
+              <button
+                type="button"
+                className="btn-confirm"
+                onClick={handleCreateCategory}
+              >
+                <span>Submit</span>
+              </button>
+            </div>
           </form>
         </>
       )}
       {categoryState === "update" && (
         <>
-          <form action="">
-            <div>
-              <label htmlFor="category">Choose a category: </label>
-              <select
-                value={selectedCategory ? String(selectedCategory.id) : ""}
-                onChange={(e) => {
-                  const selectedId = Number(e.target.value);
+          <form action="" className="mt-5 bg-[#f1cda3] py-2">
+            <div className="flex flex-col">
+              <div>
+                <label htmlFor="category" className="text mt-2 ml-2">
+                  Choose a category:{" "}
+                </label>
+                <select
+                  className="input"
+                  value={selectedCategory ? String(selectedCategory.id) : ""}
+                  onChange={(e) => {
+                    const selectedId = Number(e.target.value);
 
-                  const category = categories.find(
-                    (category) => category.id === selectedId,
-                  );
+                    const category = categories.find(
+                      (category) => category.id === selectedId,
+                    );
 
-                  if (!category) {
-                    setSelectedCategory(null);
-                    setName("");
-                    return;
-                  }
+                    if (!category) {
+                      setSelectedCategory(null);
+                      setName("");
+                      return;
+                    }
 
-                  setSelectedCategory(category);
-                  setName(category.name);
+                    setSelectedCategory(category);
+                    setName(category.name);
+                  }}
+                >
+                  {categories.map((category) => (
+                    <option key={category.id} value={String(category.id)}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label htmlFor="category-name" className="text mt-3 ml-2">
+                  New category name:{" "}
+                </label>
+                <input
+                  className="input"
+                  id="category-name"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <p className="mx-1.5 mt-5 mb-3 flex items-center justify-center border-2 border-[#260077] bg-[#d0c4eb] px-1 py-1 text-lg font-medium">
+                Note: you can't change the 'Unknown' category.
+              </p>
+            </div>
+            <div className="mt-9 ml-2 flex gap-40">
+              <button
+                className="btn-back"
+                type="button"
+                onClick={() => {
+                  setCategoryState("default");
                 }}
               >
-                {categories.map((category) => (
-                  <option key={category.id} value={String(category.id)}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
+                <span>Back</span>
+              </button>
+              <button
+                className="btn-confirm"
+                type="button"
+                onClick={handleUpdateCategory}
+                disabled={!selectedCategory || isUnknownCategory}
+              >
+                <span>Save changes</span>
+              </button>
             </div>
-            <label htmlFor="category-name" className="bg-amber-700">
-              New category name:{" "}
-            </label>
-            <input
-              id="category-name"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <br />
-            <p className="font-bold text-red-800">
-              Note: you can't change the 'Unknown' category.
-            </p>
-            <br />
-            <button
-              type="button"
-              onClick={handleUpdateCategory}
-              disabled={!selectedCategory || isUnknownCategory}
-            >
-              Save changes
-            </button>
-            <br />
-            <button
-              type="button"
-              onClick={() => {
-                setCategoryState("default");
-              }}
-            >
-              Back
-            </button>
           </form>
         </>
       )}
       {categoryState === "delete" && (
         <>
-          <form action="">
-            <label htmlFor="category">Choose a category: </label>
+          <form action="" className="mt-5 bg-[#f1cda3] py-2">
+            <label htmlFor="category" className="text mt-5 ml-2">
+              Choose a category:{" "}
+            </label>
             <select
+              className="input"
               value={selectedCategory ? String(selectedCategory.id) : ""}
               onChange={(e) => {
                 const selectedId = Number(e.target.value);
@@ -330,26 +376,27 @@ function CategoryPage() {
                 </option>
               ))}
             </select>
-            <br />
-            <p className="bg-red-700 text-black">
+            <p className="mx-1.5 mt-5 mb-3 flex items-center justify-center border-2 border-[#260077] bg-[#d0c4eb] px-1 py-1 text-lg font-medium">
               Are you sure you want to delete this category?
             </p>
-            <button
-              type="button"
-              className="font-bold text-red-800"
-              onClick={handleDeleteCategory}
-            >
-              Delete
-            </button>
-            <br />
-            <button
-              type="button"
-              onClick={() => {
-                setCategoryState("default");
-              }}
-            >
-              Back
-            </button>
+            <div className="mt-5 ml-2 flex gap-50">
+              <button
+                className="btn-back"
+                type="button"
+                onClick={() => {
+                  setCategoryState("default");
+                }}
+              >
+                Back
+              </button>
+              <button
+                type="button"
+                className="btn-confirm"
+                onClick={handleDeleteCategory}
+              >
+                Delete
+              </button>
+            </div>
           </form>
         </>
       )}

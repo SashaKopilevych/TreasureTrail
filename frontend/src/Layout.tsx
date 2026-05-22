@@ -79,13 +79,13 @@ function Layout() {
       <Toast ref={toast} />
       <div className="grid grid-cols-[25%_75%]">
         <div className="bg-[#FF9B42]">
-          <div className="flex flex-row">
-            <div className="basis-64">
+          <div className="mt-3 flex gap-5">
+            <div className="icon-layout flex-1">
               <IconContext.Provider value={{ color: "black", size: "4em" }}>
                 <GiOpenTreasureChest onClick={() => navigate("/treasure")} />
               </IconContext.Provider>
             </div>
-            <div className="basis-64">
+            <div className="icon-layout flex-1">
               <IconContext.Provider value={{ color: "black", size: "3em" }}>
                 <TbCategoryFilled onClick={() => navigate("/category")} />
               </IconContext.Provider>

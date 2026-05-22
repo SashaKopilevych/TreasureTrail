@@ -237,67 +237,92 @@ function TreasureDetails() {
     <>
       <Toast ref={toast} />
 
-      <div className="bg-amber-50">
-        <div>
+      <div className="mt-5 bg-[#f1cda3] py-2 pl-2">
+        <div className="px-4 py-2">
           {treasure.image_name && (
             <img
               src={`http://localhost:3000/uploads/${treasure.image_name}`}
-              className="w-full rounded"
+              className="image"
             />
           )}
         </div>
-
-        <div>Description: {treasure.description}</div>
-        <div>Latitude: {treasure.latitude}</div>
-        <div>Longitude: {treasure.longitude}</div>
-
-        {!treasure.is_found && (
-          <div>
-            <label>Hint*: </label>
-            {hintVisible ? (
-              <p>{treasure.hint}</p>
-            ) : (
-              <p>Hint is locked. Prove your location first.</p>
-            )}
+        <div className="mt-4 flex flex-col gap-2">
+          <div className="flex">
+            <p className="text">Description: </p>
+            <span className="input">{treasure.description}</span>
           </div>
-        )}
 
-        {!treasure.is_found && (
-          <button
-            className="bg-amber-900"
-            onClick={handleProveLocation}
-            disabled={isCheckingLocation}
-          >
-            {isCheckingLocation
-              ? "Checking your location..."
-              : "Prove location"}
-          </button>
-        )}
-        {!treasure.is_found && distance !== null && distance !== null && (
-          <div>Distance: {Math.round(distance)}m</div>
-        )}
-        <div>Category: {treasure.category_name}</div>
+          <div className="flex">
+            <p className="text">Latitude: </p>
+            <span className="input">{treasure.latitude}</span>
+          </div>
 
-        <label>
-          Found: {treasure.is_found ? "Yes" : "No"}
+          <div className="flex">
+            <p className="text">Longitude: </p>
+            <span className="input">{treasure.longitude}</span>
+          </div>
+
+          {!treasure.is_found && (
+            <div>
+              <p className="text">Hint*: </p>
+              {hintVisible ? (
+                <span className="input">{treasure.hint}</span>
+              ) : (
+                <span className="text ml-1">
+                  Hint is locked. Prove your location first.
+                </span>
+              )}
+            </div>
+          )}
+
+          {!treasure.is_found && (
+            <button
+              className="btn-confirm"
+              onClick={handleProveLocation}
+              disabled={isCheckingLocation}
+            >
+              {isCheckingLocation
+                ? "Checking your location..."
+                : "Prove location"}
+            </button>
+          )}
+          {!treasure.is_found && distance !== null && (
+            <p>Distance: {Math.round(distance)}m</p>
+          )}
+
+          <div className="flex">
+            <p className="text">Category: </p>
+            <span className="input">{treasure.category_name}</span>
+          </div>
+
+          <div className="flex">
+            <p className="text">Found: </p>
+            <span className="input">{treasure.is_found ? "Yes" : "No"}</span>
+          </div>
+
           {treasure.is_found ? (
-            <p>This treasure is already found.</p>
+            <span className="text text-[#260077]">
+              This treasure is already found.
+            </span>
           ) : (
-            <label>
+            <span>
               <input
+                className="input"
                 type="checkbox"
                 checked={false}
                 disabled={!isCloseEnough}
                 onChange={markAsFound}
               />
-              Mark as found
-            </label>
+              <span className="text ml-2">Mark as found</span>
+            </span>
           )}
-          <br />
+
           {!isCloseEnough && !treasure.is_found && (
-            <p>Prove your location before marking as found.</p>
+            <span className="text">
+              Prove your location before marking as found.
+            </span>
           )}
-        </label>
+        </div>
       </div>
     </>
   );

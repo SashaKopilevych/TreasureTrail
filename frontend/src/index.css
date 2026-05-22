@@ -1,5 +1,44 @@
 @import "tailwindcss";
 
+.icon-layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.input {
+  background-color: #b69dee;
+  border-radius: 0.25rem;
+  margin-left: 0.25rem;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.image {
+  width: 100%;
+  border-radius: 0.25rem;
+  border-width: 7px;
+  border-color: #260077;
+}
+
+.filter {
+  display: flex;
+  align-items: center;
+  border-radius: 0.25rem;
+  border-width: 3px;
+  border-color: #260077;
+  background-color: #5a33ad;
+  color: white;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 4px;
+  padding-top: 4px;
+  /* font-weight: 500;
+  line-height: 1.75rem; 
+  font-size: 1.25rem;  */
+}
+
 .btn-state {
   display: flex;
   align-items: center;
@@ -22,9 +61,11 @@
 }
 
 .btn-state:hover {
+  background-color: #a98beb;
 }
 
 .btn-state:active {
+  background-color: #5a33ad;
 }
 
 .btn-back {
@@ -56,10 +97,15 @@
   border-color: #525252;
 }
 
-.btn-submit {
+.btn-confirm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: fit-content;
   border-radius: 1rem;
   border-width: 3px;
-  border-color: #737373;
+  border-color: #260077;
   background-color: white;
   padding-right: 12px;
   padding-left: 12px;
@@ -68,55 +114,42 @@
   font-size: 1.25rem;
   line-height: 1.75rem;
   font-weight: 600;
-  color: #2563eb;
+  color: #260077;
 }
 
-.btn-submit:hover {
-  border-color: #737373;
-  background-color: #cecccb;
+.btn-confirm:hover {
+  border-color: #7251ba;
+  background-color: #a78ede;
 }
 
-.btn-submit:active {
+.btn-confirm:active {
   border-color: #737373;
   background-color: #737373;
 }
 
-.btn-delete {
-  border-radius: 1rem;
-  border-width: 4px;
-  border-color: #991b1b;
-  background-color: #f7f5f5;
-  padding-right: 12px;
-  padding-left: 12px;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-  font-weight: 600;
-  color: #991b1b;
-}
-
-.btn-delete:hover {
-  border-color: #9c3131;
-  background-color: #f3bebe;
-}
-
-.btn-delete:active {
-  border-color: #9c3131;
-  background-color: #9d3b3b;
-}
-
-.notSelected {
+.instruction {
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 0.25rem;
   border-width: 4px;
-  border-color: #b91c1c;
-  background-color: #f3f4f6;
+  border-color: #260077;
+  background-color: #d0c4eb;
+  margin-right: 4px;
+  margin-left: 4px;
   padding-bottom: 20px;
   padding-top: 20px;
   font-size: 1.25rem;
   line-height: 1.75rem;
   font-weight: 500;
+}
+
+.text {
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
 }
