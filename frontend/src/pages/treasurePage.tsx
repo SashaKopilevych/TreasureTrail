@@ -363,6 +363,9 @@ function TreasurePage() {
                     value={categoryId}
                     onChange={(e) => setCategoryId(e.target.value)}
                   >
+                    <option key="" value="">
+                      -- not selected --
+                    </option>
                     {categories.map((category) => (
                       <option key={category.id} value={category.id}>
                         {category.name}
